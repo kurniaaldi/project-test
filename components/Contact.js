@@ -5,6 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   titleContent: {
@@ -72,8 +76,53 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function Contact() {
   const classes = useStyles();
+  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [form, setForm] = React.useState({
+    fullName: "",
+    email: "",
+    message: "",
+  });
+  const [capthca, setCapthca] = React.useState("");
+  const recaptchaRef = React.createRef();
+
+  const handleChangeForm = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSendMessage = async () => {
+    if (capthca) {
+      setLoading(true);
+      await axios
+        .post("http://localhost:5000/form", form)
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+          setOpen(true);
+          setForm({
+            fullName: "",
+            email: "",
+            message: "",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  };
+
+  const onChangeCapthca = (e) => {
+    setCapthca(e);
+  };
+
+  const disabled = !form.fullName || !form.email || !form.message || !capthca;
 
   return (
     <Grid container spacing={4} className={classes.gridContainer}>
@@ -107,18 +156,27 @@ function Contact() {
             info@62trade.com
           </Typography>
           <TextField
+            name="fullName"
+            value={form.fullName}
+            onChange={handleChangeForm}
             margin="dense"
             placeholder="Full name"
             variant="outlined"
             style={{ width: 300, borderRadius: 5 }}
           />
           <TextField
+            name="email"
+            value={form.email}
+            onChange={handleChangeForm}
             margin="dense"
             placeholder="Email address"
             variant="outlined"
             style={{ width: 300, borderRadius: 5 }}
           />
           <TextField
+            name="message"
+            value={form.message}
+            onChange={handleChangeForm}
             margin="dense"
             placeholder="Your message here"
             variant="outlined"
@@ -128,14 +186,34 @@ function Contact() {
           />
           <ReCAPTCHA
             sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-            onChange={(e) => console.log(e)}
+            onChange={onChangeCapthca}
             style={{ margin: "10px 0px 20px" }}
+            ref={recaptchaRef}
           />
-          <Button variant="contained" className={classes.button}>
-            Send Message
+          <Button
+            onClick={handleSendMessage}
+            variant="contained"
+            className={classes.button}
+            disabled={disabled}
+          >
+            {loading ? (
+              <CircularProgress style={{ width: 25, height: 25 }} />
+            ) : (
+              "Send Message"
+            )}
           </Button>
         </div>
       </Grid>
+      <Snackbar
+        open={open}
+        autoHideDuration={4000}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={() => setOpen(false)} severity="success">
+          This is a success message!
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 }

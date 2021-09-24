@@ -43,18 +43,43 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: 16,
+      fontSize: 15,
+    },
   },
 
   title: {
     flexGrow: 1,
     textTransform: "none",
   },
+  logo: {
+    fontSize: "8rem",
+    height: 32,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "7rem",
+    },
+  },
   button: {
     textTransform: "none",
     fontSize: 20,
     fontWeight: 400,
     fontStyle: "normal",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 15,
+      fontWeight: 700,
+    },
   },
+
+  containerContent: {
+    padding: "110px 24px 60px 0px",
+    height: "100%",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 130,
+      padding: "79px 16px 60px 14px",
+    },
+  },
+
   //side menu
   containerSideMenu: {
     position: "absolute",
@@ -70,7 +95,18 @@ const useStyles = makeStyles((theme) => ({
     // transform: "translate(0%, -50%)",
     borderRadius: 20,
     background: "linear-gradient(90deg, #776FC41A, #776FC400)",
+    [theme.breakpoints.down("sm")]: {
+      position: "fixed",
+      bottom: 0,
+      flexDirection: "row",
+      width: "100%",
+      height: 130,
+      top: "auto",
+      background: "linear-gradient(180deg, #776FC41A, #776FC400)",
+      backgroundColor: "#fff",
+    },
   },
+
   buttonSide: {
     width: 100,
     height: 100,
@@ -82,6 +118,10 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:focus": {
       background: theme.palette.primary.main,
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: 79,
+      height: 79,
     },
   },
   wrapperContentButton: {
@@ -101,6 +141,19 @@ const useStyles = makeStyles((theme) => ({
     fill: "transparent",
     marginBottom: 12,
     fontSize: "2rem",
+  },
+  wrapperFooter: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "fixed",
+    width: "100%",
+    bottom: 0,
+    height: 40,
+    background: "#fff",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
 
   textFooter: {
@@ -139,7 +192,7 @@ export default function Home(props) {
         setTopScroll(false);
       }
     };
-  }, [window.onscroll]);
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -147,7 +200,7 @@ export default function Home(props) {
         className={topScroll ? classes.wrapAppBar : classes.wrapAppBarActive}
       >
         <Toolbar className={classes.toolbar}>
-          <LOGO style={{ fontSize: "8rem", height: 32 }} />
+          <LOGO className={classes.logo} />
 
           <Button className={classes.button} color="inherit">
             Resourceful Indonesia
@@ -156,13 +209,7 @@ export default function Home(props) {
       </AppBar>
 
       {/* content */}
-      <Container
-        style={{
-          padding: "110px 24px 60px 0px",
-          height: "100%",
-          marginLeft: 0,
-        }}
-      >
+      <Container className={classes.containerContent}>
         {changePages(sideButton)}
       </Container>
 
@@ -206,7 +253,7 @@ export default function Home(props) {
               style={{ color: sideButton === "vision" && "#fff" }}
               className={classes.titleButtonSide}
             >
-              About Us
+              Vision Mission
             </Typography>
           </div>
         </Button>
@@ -227,25 +274,14 @@ export default function Home(props) {
               style={{ color: sideButton === "contact" && "#fff" }}
               className={classes.titleButtonSide}
             >
-              About Us
+              Contact
             </Typography>
           </div>
         </Button>
       </div>
 
       {/* footer */}
-      <footer
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "fixed",
-          width: "100%",
-          bottom: 0,
-          height: 40,
-          background: "#fff",
-        }}
-      >
+      <footer className={classes.wrapperFooter}>
         <Typography className={classes.textFooter}>
           Copyright 2021 62Trade.com PT. Enam Dua Niaga
         </Typography>

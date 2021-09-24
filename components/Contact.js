@@ -36,26 +36,49 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     fontSize: 14,
   },
+  gridContainer: {
+    flexDirection: "row",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column-reverse",
+    },
+  },
+  cardImg: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    height: 460,
+    width: 362,
+    boxShadow: "1px 53px 61px -53px rgba(204, 209, 211, 1)",
+
+    [theme.breakpoints.down("sm")]: {
+      width: 330,
+    },
+  },
+  cardText: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    minHeight: 460,
+    minWidth: 362,
+    [theme.breakpoints.down("sm")]: {
+      width: 330,
+    },
+  },
 }));
 
 function Contact() {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} className={classes.gridContainer}>
       <Grid item md={4}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 20,
-            backgroundColor: "#fff",
-            height: 460,
-            width: 362,
-            boxShadow: "1px 53px 61px -53px rgba(204, 209, 211, 1)",
-          }}
-        >
+        <div className={classes.cardImg}>
           <img
             src="/contact.png"
             alt="rempah-rempah"
@@ -64,16 +87,7 @@ function Contact() {
         </div>
       </Grid>
       <Grid item md={4}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            flexDirection: "column",
-            minHeight: 460,
-            minWidth: 362,
-          }}
-        >
+        <div className={classes.cardText}>
           <Typography className={classes.titleContent}>About Us</Typography>
           <br />
 
@@ -113,7 +127,7 @@ function Contact() {
             style={{ width: 300, borderRadius: 5, marginBottom: 5 }}
           />
           <ReCAPTCHA
-            sitekey="Your client site key"
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
             onChange={(e) => console.log(e)}
             style={{ margin: "10px 0px 20px" }}
           />

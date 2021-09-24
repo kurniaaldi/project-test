@@ -39,26 +39,49 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     color: theme.palette.secondary.main,
   },
+  gridContainer: {
+    flexDirection: "row",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column-reverse",
+    },
+  },
+  cardImg: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    height: 460,
+    width: 362,
+    boxShadow: "1px 53px 61px -53px rgba(204, 209, 211, 1)",
+
+    [theme.breakpoints.down("sm")]: {
+      width: 330,
+    },
+  },
+  cardText: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    minHeight: 460,
+    minWidth: 362,
+    [theme.breakpoints.down("sm")]: {
+      width: 330,
+    },
+  },
 }));
 
 function AboutUs() {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item md={4}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 20,
-            backgroundColor: "#fff",
-            height: 460,
-            width: 362,
-            boxShadow: "1px 53px 61px -53px rgba(204, 209, 211, 1)",
-          }}
-        >
+    <Grid container spacing={2} className={classes.gridContainer}>
+      <Grid item md={5} sm={5} xs={12}>
+        <div className={classes.cardImg}>
           <img
             src="/aboutUs.png"
             alt="rempah-rempah"
@@ -66,17 +89,8 @@ function AboutUs() {
           />
         </div>
       </Grid>
-      <Grid item md={4}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            flexDirection: "column",
-            minHeight: 460,
-            minWidth: 362,
-          }}
-        >
+      <Grid item md={5} sm={5} xs={12}>
+        <div className={classes.cardText}>
           <Typography className={classes.titleContent}>About Us</Typography>
           <br />
 
